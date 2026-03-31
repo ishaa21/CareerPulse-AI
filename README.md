@@ -42,10 +42,7 @@
   - [Evaluator Agent](#4-evaluator-agent-)
   - [Feedback Agent](#5-feedback-agent-)
 - [Graph Flow Engine](#-graph-flow-engine)
-- [Usage Examples](#-usage-examples)
 - [Configuration](#-configuration)
-- [Contributing](#-contributing)
-- [License](#-license)
 
 ---
 
