@@ -565,74 +565,6 @@ python backend/graph/langgraph_flow.py resume.pdf
 
 ---
 
-## 💡 Usage Examples
-
-### Example 1: Full API Workflow (cURL)
-
-```bash
-# Step 1: Upload resume
-curl -X POST http://localhost:8000/upload-resume \
-  -F "file=@my_resume.pdf"
-# Save the session_id from the response
-
-# Step 2: Start interview
-curl -X POST http://localhost:8000/start-interview \
-  -H "Content-Type: application/json" \
-  -d '{"session_id": "YOUR_SESSION_ID", "role": "Full Stack Developer"}'
-
-# Step 3: Answer questions (repeat for each question)
-curl -X POST http://localhost:8000/answer-question \
-  -H "Content-Type: application/json" \
-  -d '{"session_id": "YOUR_SESSION_ID", "answer": "Your answer here..."}'
-
-# Step 4: Get final feedback
-curl -X GET "http://localhost:8000/get-feedback?session_id=YOUR_SESSION_ID"
-```
-
-### Example 2: Python Client
-
-```python
-import requests
-
-BASE_URL = "http://localhost:8000"
-
-# Upload resume
-with open("resume.pdf", "rb") as f:
-    response = requests.post(f"{BASE_URL}/upload-resume", files={"file": f})
-    data = response.json()
-    session_id = data["session_id"]
-    print(f"Resume Analysis: {data['resume']}")
-    print(f"ATS Score: {data['ats']['ats_score']}")
-
-# Start interview
-response = requests.post(f"{BASE_URL}/start-interview", json={
-    "session_id": session_id,
-    "role": "Backend Developer"
-})
-interview = response.json()
-print(f"Q1: {interview['question']}")
-
-# Answer questions in a loop
-for i in range(interview["total_questions"]):
-    answer = input(f"Your answer to Q{i+1}: ")
-    response = requests.post(f"{BASE_URL}/answer-question", json={
-        "session_id": session_id,
-        "answer": answer
-    })
-    result = response.json()
-    if result["message"] == "Interview completed":
-        break
-    print(f"Next: {result['question']}")
-
-# Get feedback
-response = requests.get(f"{BASE_URL}/get-feedback", params={"session_id": session_id})
-feedback = response.json()
-print(f"Overall Score: {feedback['evaluation']['overall_score']}")
-print(f"Career Level: {feedback['feedback']['confidence_level']}")
-```
-
----
-
 ## ⚙️ Configuration
 
 ### LLM Model
@@ -666,34 +598,8 @@ app.add_middleware(
     # ...
 )
 ```
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how to get started:
-
-1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
-3. **Commit** your changes: `git commit -m 'Add amazing feature'`
-4. **Push** to the branch: `git push origin feature/amazing-feature`
-5. **Open** a Pull Request
-
-### Development Guidelines
-
-- Follow the existing agent pattern when adding new agents
-- All LLM responses should be parsed through the `parse_json()` helper
-- Add error handling at every node/agent boundary
-- Use structured logging with agent-specific prefixes (e.g., `[AGENT_NAME]`)
-
----
-
-## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
-
 ---
 
 <p align="center">
-  Built with ❤️ using Python, FastAPI, LangGraph & HuggingFace
+  Built with ❤️ using Python, FastAPI, LangGraph & HuggingFace by <i>Vidhi Ladani</i>
 </p>
