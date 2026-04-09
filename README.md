@@ -205,6 +205,16 @@ CareerLens_AI/
 │   │
 │   └── temp/                     # Temporary uploaded resume storage
 │
+├── server/                       # Node.js + Express API (legacy/alternate backend)
+│   ├── package.json              # Server dependencies and scripts
+│   ├── src/
+│   │   ├── index.js              # Express app entry point
+│   │   ├── config/               # DB and app configuration
+│   │   ├── middleware/           # Auth/error middleware
+│   │   ├── models/               # Mongoose schemas
+│   │   └── routes/               # API route definitions
+│   └── .env                      # Server environment variables
+│
 └── venv/                         # Python virtual environment
 ```
 
@@ -678,28 +688,6 @@ model = "openai/gpt-oss-120b"  # via HuggingFace router
 
 To switch models, update the `model` variable. Supported models include any model available on the [HuggingFace Inference API](https://huggingface.co/models) with chat completion support.
 
-### Interview Question Controls
-
-Configurable via API request payload in `POST /start-interview`:
-
-```python
-interview_type = "all"   # all/hr/behavioral/project-based/technical
-num_questions = 10       # 10, 15, or 20
-```
-
-The Interviewer Agent prompt now targets the selected interview type and returns the selected number of questions.
-
-### CORS Settings
-
-The API allows all origins by default (for development). Update in `backend/api/main.py` for production:
-
-```python
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["https://your-frontend-domain.com"],
-    # ...
-)
-```
 ---
 
 <p align="center">
