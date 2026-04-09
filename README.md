@@ -4,13 +4,16 @@
     <strong>Multi-Agent Resume & Interview Intelligence System</strong>
   </p>
   <p align="center">
-    An AI-powered backend that analyzes resumes, optimizes for ATS, conducts mock interviews, evaluates performance, and delivers personalized career guidance — all orchestrated through a multi-agent pipeline.
+    A full-stack CareerLens experience: a <strong>FastAPI</strong> multi-agent backend plus a <strong>React (Vite)</strong> web app for resumes, ATS insights, mock interviews (including voice), evaluation, and career feedback.
   </p>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
   <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI"/>
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"/>
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"/>
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"/>
   <img src="https://img.shields.io/badge/LangGraph-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white" alt="LangGraph"/>
   <img src="https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="HuggingFace"/>
 </p>
@@ -29,6 +32,12 @@
   - [Installation](#installation)
   - [Environment Variables](#environment-variables)
   - [Running the Server](#running-the-server)
+- [Frontend Web App](#-frontend-web-app)
+  - [Tech Stack](#frontend-tech-stack)
+  - [Run the UI](#run-the-ui)
+  - [Environment Variables](#frontend-environment-variables)
+  - [App routes and features](#app-routes-and-features)
+  - [Project Structure (`frontend/`)](#project-structure-frontend)
 - [API Documentation](#-api-documentation)
   - [Upload Resume](#1-upload-resume)
   - [Start Interview](#2-start-interview)
@@ -48,13 +57,13 @@
 
 ## 🌟 Overview
 
-**CareerLens AI** is a multi-agent backend system designed to provide end-to-end career intelligence. It takes a candidate's resume (PDF) and runs it through a pipeline of specialized AI agents — each responsible for a distinct phase of career analysis:
+**CareerLens AI** is a multi-agent system for end-to-end career intelligence. The **backend** takes a candidate's resume (PDF) and runs it through specialized AI agents. The **frontend** is a dashboard-style React app that calls the same FastAPI endpoints for upload, ATS, interviews, evaluation, and feedback.
 
 ```
 Resume Upload → Resume Analysis → ATS Optimization → Mock Interview → Answer Evaluation → Career Feedback
 ```
 
-The system exposes a **RESTful API** via FastAPI for frontend integration and also supports a **CLI-based pipeline** for direct execution. The agent orchestration is powered by **LangGraph**, enabling stateful, graph-based execution with conditional branching.
+The system exposes a **RESTful API** via FastAPI (used by the bundled React app) and also supports a **CLI-based pipeline** for direct execution. Agent orchestration can use **LangGraph** for stateful, graph-based execution with conditional branching.
 
 ---
 
@@ -65,11 +74,12 @@ The system exposes a **RESTful API** via FastAPI for frontend integration and al
 | 📄 **Resume Parsing** | Extracts text from PDF resumes using PyPDF2 with page-level processing |
 | 🤖 **AI-Powered Analysis** | Structured resume analysis via LLM — extracts skills, experience, projects, strengths, and weaknesses |
 | 🎯 **ATS Optimization** | Identifies missing keywords, provides formatting feedback, and generates an ATS-friendly summary with a score |
-| 🎤 **Mock Interview** | Generates role-specific interview questions based on resume data and target job role |
+| 🎤 **Mock Interview** | Generates role-specific questions based on resume data, selected interview type (`all/hr/behavioral/project-based/technical`), and selected question count (`10/15/20`) |
 | 📊 **Answer Evaluation** | Evaluates interview answers with per-question scores, strengths, mistakes, and improvement suggestions |
 | 🏁 **Career Guidance** | Delivers a final career roadmap with skill gap analysis, learning recommendations, and project suggestions |
 | 🔀 **Graph Orchestration** | LangGraph-powered pipeline with conditional branching (interview is optional) |
 | 🌐 **REST API** | Session-based FastAPI endpoints supporting the full pipeline workflow |
+| 🖥 **Web dashboard** | React + Vite UI: resume upload, ATS views, mock interviews (voice + TTS), evaluation, feedback, light/dark theme |
 | 💬 **Interactive CLI** | Command-line interface for running the complete pipeline with interactive Q&A |
 
 ---
@@ -116,7 +126,7 @@ The system exposes a **RESTful API** via FastAPI for frontend integration and al
 1. **Resume Agent** — Extracts text from PDF and produces a structured analysis
 2. **ATS Agent** — Optimizes the resume data for Applicant Tracking Systems
 3. **Decision Node** — User chooses whether to proceed with a mock interview
-4. **Interviewer Agent** — Generates role-specific questions from resume + target role
+4. **Interviewer Agent** — Generates role-specific questions from resume + target role + interview type + selected question count
 5. **Evaluator Agent** — Scores and evaluates each interview answer
 6. **Feedback Agent** — Synthesizes all data into a final career guidance report
 
@@ -136,6 +146,17 @@ The system exposes a **RESTful API** via FastAPI for frontend integration and al
 | **Uvicorn** | ASGI server for FastAPI |
 | **python-dotenv** | Environment variable management |
 
+### Frontend (dashboard)
+
+| Technology | Purpose |
+|---|---|
+| **React 19** | UI library |
+| **Vite** | Dev server & production build |
+| **React Router** | Client-side routing (public + protected dashboard) |
+| **Tailwind CSS v4** | Styling & design tokens (`frontend/src/index.css`) |
+| **axios** | HTTP client (auth helpers in `frontend/src/services/api.js`) |
+| **Web Speech API** | Text-to-speech for questions; speech-to-text for answers (`frontend/src/utils/speech.js`) |
+
 ---
 
 ## 📂 Project Structure
@@ -145,6 +166,20 @@ CareerLens_AI/
 ├── .env                          # Environment variables (API tokens)
 ├── .gitignore                    # Git ignore rules
 ├── README.md                     # This file
+├── frontend/                     # React + Vite dashboard
+│   ├── package.json
+│   ├── vite.config.*
+│   ├── index.html
+│   ├── public/                   # Static assets (favicon, icons)
+│   └── src/
+│       ├── App.jsx               # Routes (landing, auth, dashboard shell)
+│       ├── index.css             # Global styles + Tailwind theme
+│       ├── layouts/              # MainLayout, DashboardLayout
+│       ├── components/           # ProtectedRoute, etc.
+│       ├── pages/                # Landing, Login, Signup, Dashboard, Resumes, Interviews, …
+│       ├── services/api.js       # Auth API helpers + token storage
+│       └── utils/speech.js       # speakText / cancelSpeech (TTS)
+│
 ├── backend/
 │   ├── main.py                   # CLI entry point (basic LLM test)
 │   ├── requirements.txt          # Python dependencies
@@ -252,6 +287,66 @@ python backend/graph/flow.py path/to/resume.pdf
 
 ---
 
+## 🖥 Frontend Web App
+
+The `frontend/` directory is a **Vite + React** single-page application. It expects the FastAPI backend to be reachable (default `http://localhost:8000` unless overridden).
+
+### Frontend tech stack
+
+See the **Frontend (dashboard)** table under [Tech Stack](#-tech-stack).
+
+### Run the UI
+
+From the repository root:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+- Dev server: **Vite** prints a local URL (typically `http://localhost:5173`).
+- Production build: `npm run build` → static assets in `frontend/dist/`.
+- Lint: `npm run lint`.
+
+Run the **backend** in a separate terminal (see [Running the Server](#running-the-server)) so uploads, interviews, and feedback work end-to-end.
+
+### Frontend environment variables
+
+Optional file: `frontend/.env`
+
+| Variable | Description |
+|---|---|
+| `VITE_API_URL` | Base URL for the FastAPI server (e.g. `http://localhost:8000`). Used by `frontend/src/services/api.js`. Fetch calls in some pages may still use `http://localhost:8000` directly; set the server URL consistently for your environment. |
+
+### App routes and features
+
+**Public**
+
+- `/` — Landing
+- `/login`, `/signup` — Authentication
+
+**Protected (dashboard layout)**
+
+- `/dashboard` — Summary / quick actions
+- `/resumes` — **Uploaded Resumes**: PDF upload, list, ATS details per resume, shortcut to start interview
+- `/ats-analysis` — Dedicated ATS report view
+- `/interviews` — Interview history; **mock interview** flow with **TTS** (read questions) and **speech-to-text** (voice answers); submit / skip / **previous question**
+- `/evaluation` — Question-wise evaluation across past interviews
+- `/feedback` — Aggregated resume / ATS feedback patterns
+- `/settings` — Profile, security (password UI), appearance (light/dark), FAQs; `/profile` redirects here
+
+**UX notes**
+
+- **Theme:** Light/dark uses `data-theme` on `<html>` and `localStorage` key `careerlens_theme`. A **sidebar toggle** mirrors the Settings appearance control.
+- **Voice:** Uses browser **Speech Synthesis** and **Speech Recognition** (Chrome/Edge generally best). Microphone permission may be required.
+
+### Project structure (`frontend/`)
+
+High-level layout (see tree under [Project Structure](#-project-structure) above). Page-specific styles live beside components (e.g. `InterviewsPage.css`).
+
+---
+
 ## 📡 API Documentation
 
 The API uses a **session-based workflow**. Each resume upload creates a unique session that tracks the entire pipeline state.
@@ -308,20 +403,28 @@ curl -X POST http://localhost:8000/upload-resume \
 
 **`POST /start-interview`**
 
-Generates interview questions based on the resume and target role. Returns the first question.
+Generates interview questions based on the resume, target role, interview type, and question count. Returns the first question.
 
 **Request:**
 ```json
 {
-  "session_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-  "role": "Backend Developer"
+  "user_id": "demo_user_123",
+  "resume_id": "67f3c72f4a2d1ebf4b8a1234",
+  "role": "Backend Developer",
+  "interview_type": "technical",
+  "num_questions": 15
 }
 ```
+
+Allowed values:
+- `interview_type`: `all` (default), `hr`, `behavioral`, `project-based`, `technical`
+- `num_questions`: `10` (default), `15`, `20`
 
 **Response:**
 ```json
 {
   "message": "Interview started",
+  "interview_type": "technical",
   "total_questions": 10,
   "question_number": 1,
   "question": "Explain the difference between REST and GraphQL APIs."
@@ -469,12 +572,13 @@ Returns the current state of a session for debugging or frontend sync.
 
 | Aspect | Detail |
 |---|---|
-| **Input** | Resume data + target role |
-| **Process** | Generates role-specific questions via LLM |
+| **Input** | Resume data + target role + interview type + requested question count |
+| **Process** | Generates interview-type-aware questions via LLM |
 | **Output** | `{ questions[], answers[], qa_pairs[] }` |
 
 **Key capabilities:**
-- Generates 8–12 industry-level interview questions
+- Supports interview types: `all`, `hr`, `behavioral`, `project-based`, `technical`
+- Supports question count selection: `10`, `15`, or `20` (default `10`)
 - Questions progress from easy to medium difficulty
 - Covers technical skills, projects, scenarios, and problem-solving
 - Supports both API-driven (stateless) and CLI (interactive) modes
@@ -574,15 +678,16 @@ model = "openai/gpt-oss-120b"  # via HuggingFace router
 
 To switch models, update the `model` variable. Supported models include any model available on the [HuggingFace Inference API](https://huggingface.co/models) with chat completion support.
 
-### Interview Question Limits
+### Interview Question Controls
 
-Configurable in `backend/graph/langgraph_flow.py`:
+Configurable via API request payload in `POST /start-interview`:
 
 ```python
-MAX_INTERVIEW_QUESTIONS = 7  # Adjustable per session
+interview_type = "all"   # all/hr/behavioral/project-based/technical
+num_questions = 10       # 10, 15, or 20
 ```
 
-The Interviewer Agent prompt requests 8–12 questions, which are then capped by this setting in the LangGraph flow.
+The Interviewer Agent prompt now targets the selected interview type and returns the selected number of questions.
 
 ### CORS Settings
 

@@ -18,6 +18,8 @@ Your task is to generate interview questions based on:
 
 1. Candidate's resume data
 2. Target role: {role}
+3. Interview type: {interview_type}
+4. Number of questions: {num_questions}
 
 Resume Data:
 \"\"\"
@@ -35,6 +37,12 @@ Instructions:
   - Problem solving
 - Include role-specific questions.
 - Include resume-based questions.
+- Match the interview type exactly:
+  - all: balanced mix (technical + behavioral + project + HR)
+  - technical: mostly core concepts, coding/problem-solving, system thinking
+  - behavioral: communication, teamwork, conflict, leadership, ownership
+  - project-based: deep dive into resume projects, architecture, trade-offs, impact
+  - hr: motivation, fit, career goals, strengths/weaknesses
 
 Return strictly JSON:
 
@@ -49,7 +57,7 @@ Return strictly JSON:
 Rules:
 - Only JSON
 - No explanation
-- 8–12 questions maximum
+- Return exactly {num_questions} questions
 """
 
 
@@ -95,7 +103,7 @@ def parse_json(response: str) -> dict:
 # Question Generator (used by LangGraph nodes)
 # ──────────────────────────────────────────────
 
-def generate_questions(input_data, role) -> list:
+def generate_questions(input_data, role, interview_type="all", num_questions=10) -> list:
     """
     Generates interview questions from resume data + role using the LLM.
     Returns a plain list of question strings (no interactive loop).
@@ -104,7 +112,9 @@ def generate_questions(input_data, role) -> list:
 
     prompt = PROMPT_TEMPLATE.format(
         data=json.dumps(input_data, indent=2),
-        role=role
+        role=role,
+        interview_type=interview_type,
+        num_questions=int(num_questions)
     )
 
     response = generate_text(prompt)
@@ -118,6 +128,15 @@ def generate_questions(input_data, role) -> list:
     if not isinstance(questions, list):
         questions = []
 
+    # Normalize output and enforce the requested count.
+    questions = [str(q).strip() for q in questions if str(q).strip()]
+    target_count = max(1, min(20, int(num_questions)))
+    if len(questions) > target_count:
+        questions = questions[:target_count]
+    elif len(questions) < target_count:
+        for i in range(len(questions) + 1, target_count + 1):
+            questions.append(f"Question {i} for a {role} ({interview_type}) interview.")
+
     print(f"[INTERVIEW] {len(questions)} questions generated.")
     return questions
 
@@ -126,14 +145,14 @@ def generate_questions(input_data, role) -> list:
 # Interviewer Agent (standalone with built-in loop)
 # ──────────────────────────────────────────────
 
-def interviewer_agent(input_data, role) -> dict:
+def interviewer_agent(input_data, role, interview_type="all", num_questions=10) -> dict:
     """
     Generates interview questions based on resume data + target role,
     then conducts an interactive Q&A session with the user.
 
     Returns a dict with questions, answers, and qa_pairs.
     """
-    questions = generate_questions(input_data, role)
+    questions = generate_questions(input_data, role, interview_type, num_questions)
 
     if not questions:
         print("[INTERVIEW][ERROR] No questions were generated. Aborting interview.")
