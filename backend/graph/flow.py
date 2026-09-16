@@ -130,7 +130,7 @@ def feedback_node(state: GraphState) -> GraphState:
 
 def run_graph(pdf_path: str) -> GraphState:
     """
-    Executes the full CareerLens AI pipeline as a graph flow.
+    Executes the full CareerPulse AI pipeline as a graph flow.
 
     Flow:
         Resume → ATS → Decision
@@ -140,7 +140,7 @@ def run_graph(pdf_path: str) -> GraphState:
                                                        Feedback
     """
     print("\n" + "=" * 60)
-    print("     🚀 CareerLens AI — Graph Flow Engine")
+    print("     🚀 CareerPulse AI — Graph Flow Engine")
     print("=" * 60)
     print("  Nodes: Resume → ATS → Decision → Interview")
     print("                → Evaluator → Feedback")
@@ -213,5 +213,5 @@ if __name__ == "__main__":
             pprint.pprint(data, width=100)
 
     print("\n" + "=" * 60)
-    print("  🎉 CareerLens AI — All Done!")
+    print("  🎉 CareerPulse AI — All Done!")
     print("=" * 60 + "\n")

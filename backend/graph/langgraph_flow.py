@@ -263,7 +263,7 @@ app = graph.compile()
 
 def run_langgraph(pdf_path: str) -> dict:
     """
-    Executes the full CareerLens AI pipeline using LangGraph.
+    Executes the full CareerPulse AI pipeline using LangGraph.
 
     Flow:
         Resume → ATS → Decision
@@ -273,7 +273,7 @@ def run_langgraph(pdf_path: str) -> dict:
                                                        Feedback → END
     """
     print("\n" + "=" * 60)
-    print("     🚀 CareerLens AI — LangGraph Flow Engine")
+    print("     🚀 CareerPulse AI — LangGraph Flow Engine")
     print("=" * 60)
     print("  Nodes: Resume → ATS → Decision → Interview")
     print("                → Evaluator → Feedback → END")
@@ -331,5 +331,5 @@ if __name__ == "__main__":
             pprint.pprint(data, width=100)
 
     print("\n" + "=" * 60)
-    print("  🎉 CareerLens AI — All Done!")
+    print("  🎉 CareerPulse AI — All Done!")
     print("=" * 60 + "\n")

@@ -1,10 +1,10 @@
 <p align="center">
-  <h1 align="center">🔍 CareerLens AI</h1>
+  <h1 align="center">🔍 CareerPulse AI</h1>
   <p align="center">
     <strong>Multi-Agent Resume & Interview Intelligence System</strong>
   </p>
   <p align="center">
-    A full-stack CareerLens experience: a <strong>FastAPI</strong> multi-agent backend plus a <strong>React (Vite)</strong> web app for resumes, ATS insights, mock interviews (including voice), evaluation, and career feedback.
+    A full-stack CareerPulse experience: a <strong>FastAPI</strong> multi-agent backend plus a <strong>React (Vite)</strong> web app for resumes, ATS insights, mock interviews (including voice), evaluation, and career feedback.
   </p>
 </p>
 
@@ -57,7 +57,7 @@
 
 ## 🌟 Overview
 
-**CareerLens AI** is a multi-agent system for end-to-end career intelligence. The **backend** takes a candidate's resume (PDF) and runs it through specialized AI agents. The **frontend** is a dashboard-style React app that calls the same FastAPI endpoints for upload, ATS, interviews, evaluation, and feedback.
+**CareerPulse AI** is a multi-agent system for end-to-end career intelligence. The **backend** takes a candidate's resume (PDF) and runs it through specialized AI agents. The **frontend** is a dashboard-style React app that calls the same FastAPI endpoints for upload, ATS, interviews, evaluation, and feedback.
 
 ```
 Resume Upload → Resume Analysis → ATS Optimization → Mock Interview → Answer Evaluation → Career Feedback
@@ -88,7 +88,7 @@ The system exposes a **RESTful API** via FastAPI (used by the bundled React app)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        CareerLens AI                            │
+│                        CareerPulse AI                            │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │   ┌──────────┐    ┌──────────┐    ┌────────────┐               │
@@ -162,7 +162,7 @@ The system exposes a **RESTful API** via FastAPI (used by the bundled React app)
 ## 📂 Project Structure
 
 ```
-CareerLens_AI/
+CareerPulse_AI/
 ├── .env                          # Environment variables (API tokens)
 ├── .gitignore                    # Git ignore rules
 ├── README.md                     # This file
@@ -233,8 +233,8 @@ CareerLens_AI/
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/CareerLens_AI.git
-   cd CareerLens_AI
+   git clone https://github.com/your-username/CareerPulse_AI.git
+   cd CareerPulse_AI
    ```
 
 2. **Create a virtual environment:**
@@ -348,7 +348,7 @@ Optional file: `frontend/.env`
 
 **UX notes**
 
-- **Theme:** Light/dark uses `data-theme` on `<html>` and `localStorage` key `careerlens_theme`. A **sidebar toggle** mirrors the Settings appearance control.
+- **Theme:** Light/dark uses `data-theme` on `<html>` and `localStorage` key `careerpulse_theme`. A **sidebar toggle** mirrors the Settings appearance control.
 - **Voice:** Uses browser **Speech Synthesis** and **Speech Recognition** (Chrome/Edge generally best). Microphone permission may be required.
 
 ### Project structure (`frontend/`)
@@ -634,7 +634,7 @@ Returns the current state of a session for debugging or frontend sync.
 
 ## 🔀 Graph Flow Engine
 
-CareerLens AI offers **two graph execution modes**:
+CareerPulse AI offers **two graph execution modes**:
 
 ### 1. Manual Flow (`graph/flow.py`)
 
@@ -691,5 +691,5 @@ To switch models, update the `model` variable. Supported models include any mode
 ---
 
 <p align="center">
-  Built with ❤️ using Python, FastAPI, LangGraph & HuggingFace by <i>Vidhi Ladani</i>
+  Built with ❤️ using Python, FastAPI, LangGraph & HuggingFace 
 </p>

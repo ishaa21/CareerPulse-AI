@@ -39,7 +39,7 @@ for env_path in [ROOT_DIR / ".env", ROOT_DIR / "backend" / ".env", ROOT_DIR / "s
 # ──────────────────────────────────────────────
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
-logger = logging.getLogger("CareerLensAPI")
+logger = logging.getLogger("CareerPulseAPI")
 
 
 # ──────────────────────────────────────────────
@@ -47,7 +47,7 @@ logger = logging.getLogger("CareerLensAPI")
 # ──────────────────────────────────────────────
 
 app = FastAPI(
-    title="CareerLens AI",
+    title="CareerPulse AI",
     description="Multi-Agent Resume & Interview Intelligence System",
     version="1.0.0",
 )
@@ -73,7 +73,7 @@ TEMP_DIR.mkdir(exist_ok=True)
 # Connect to MongoDB
 try:
     mongo_client = MongoClient("mongodb://localhost:27017/", serverSelectionTimeoutMS=5000)
-    db = mongo_client["careerlens_ai"]
+    db = mongo_client["careerpulse_ai"]
 except Exception as e:
     logger.error(f"MongoDB connection failed: {e}")
     db = None
@@ -223,12 +223,12 @@ def send_welcome_email(to_email: str, user_name: str) -> tuple[bool, str]:
     email_port = int(os.getenv("EMAIL_PORT", "587"))
     email_user = os.getenv("EMAIL_USER")
     email_pass = os.getenv("EMAIL_PASS")
-    email_from = os.getenv("EMAIL_FROM", email_user or "noreply@careerlensai.com")
+    email_from = os.getenv("EMAIL_FROM", email_user or "noreply@careerpulseai.com")
 
     if not all([email_host, email_user, email_pass]):
         return False, "Email not configured"
 
-    subject = "Welcome to CareerLens AI! 🚀"
+    subject = "Welcome to CareerPulse AI! 🚀"
     app_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
     safe_name = user_name.replace("<", "").replace(">", "").strip() or "there"
     html_body = f"""
@@ -237,7 +237,7 @@ def send_welcome_email(to_email: str, user_name: str) -> tuple[bool, str]:
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Welcome to CareerLens AI</title>
+        <title>Welcome to CareerPulse AI</title>
       </head>
       <body style="margin:0;padding:0;background:#0a0b17;font-family:Inter,Arial,sans-serif;color:#eaeaf4;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#0a0b17;padding:24px 8px;">
@@ -248,7 +248,7 @@ def send_welcome_email(to_email: str, user_name: str) -> tuple[bool, str]:
                   <td style="padding:28px 26px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);text-align:center;">
                     <div style="font-size:36px;line-height:1;margin-bottom:10px;">🔎</div>
                     <div style="font-size:40px;font-weight:900;letter-spacing:-0.03em;color:#ffffff;">
-                      CareerLens <span style="color:#d8d5ff;">AI</span>
+                      CareerPulse <span style="color:#d8d5ff;">AI</span>
                     </div>
                     <div style="margin-top:8px;font-size:20px;color:#ebe8ff;font-weight:500;">
                       AI-Powered Career Intelligence Platform
@@ -262,7 +262,7 @@ def send_welcome_email(to_email: str, user_name: str) -> tuple[bool, str]:
                       Welcome aboard, {safe_name}! 🚀
                     </h1>
                     <p style="margin:0 0 24px 0;font-size:24px;line-height:1.55;color:#bfc2dc;">
-                      Welcome to <span style="color:#ffffff;font-weight:700;">CareerLens AI</span>! We are excited to help you grow your career.
+                      Welcome to <span style="color:#ffffff;font-weight:700;">CareerPulse AI</span>! We are excited to help you grow your career.
                       Our AI-powered platform gives you everything you need to prepare smarter and faster.
                     </p>
 
@@ -324,7 +324,7 @@ def send_welcome_email(to_email: str, user_name: str) -> tuple[bool, str]:
                 <tr>
                   <td style="padding:16px 22px;border-top:1px solid rgba(255,255,255,0.08);text-align:center;background:#0d1020;">
                     <div style="font-size:15px;color:#8d93b6;">
-                      © 2026 CareerLens AI. Built with ❤️ for your career growth.
+                      © 2026 CareerPulse AI. Built with ❤️ for your career growth.
                     </div>
                   </td>
                 </tr>

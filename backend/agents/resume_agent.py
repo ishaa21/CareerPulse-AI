@@ -148,7 +148,7 @@ def _parse_json_response(raw: str) -> dict:
 
 
 # ──────────────────────────────────────────────
-# 3. CLI Entry Point — Full CareerLens AI Pipeline
+# 3. CLI Entry Point — Full CareerPulse AI Pipeline
 # ──────────────────────────────────────────────
 
 if __name__ == "__main__":
@@ -163,7 +163,7 @@ if __name__ == "__main__":
 
     try:
         print("\n" + "=" * 60)
-        print("        🚀 CareerLens AI — Full Pipeline")
+        print("        🚀 CareerPulse AI — Full Pipeline")
         print("=" * 60)
         print("  Resume → ATS → Interview → Evaluation → Feedback\n")
 
@@ -227,7 +227,7 @@ if __name__ == "__main__":
             print("\n[PIPELINE] Interview skipped. Pipeline complete.\n")
 
         print("\n" + "=" * 60)
-        print("  ✅ CareerLens AI Pipeline Finished Successfully!")
+        print("  ✅ CareerPulse AI Pipeline Finished Successfully!")
         print("=" * 60 + "\n")
 
     except FileNotFoundError as e:

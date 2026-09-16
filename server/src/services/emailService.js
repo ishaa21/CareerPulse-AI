@@ -53,9 +53,9 @@ const sendWelcomeEmail = async (userEmail, userName) => {
     const transport = await getTransporter();
 
     const mailOptions = {
-      from: process.env.EMAIL_FROM || '"CareerLens AI" <noreply@careerlensai.com>',
+      from: process.env.EMAIL_FROM || '"CareerPulse AI" <noreply@careerpulseai.com>',
       to: userEmail,
-      subject: '🎉 Welcome to CareerLens AI!',
+      subject: '🎉 Welcome to CareerPulse AI!',
       html: `
         <!DOCTYPE html>
         <html>
@@ -68,7 +68,7 @@ const sendWelcomeEmail = async (userEmail, userName) => {
             <!-- Header -->
             <div style="text-align: center; padding: 40px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px 16px 0 0;">
               <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">
-                🔍 CareerLens AI
+                🔍 CareerPulse AI
               </h1>
               <p style="color: rgba(255,255,255,0.85); margin: 10px 0 0; font-size: 14px;">
                 AI-Powered Career Intelligence Platform
@@ -81,7 +81,7 @@ const sendWelcomeEmail = async (userEmail, userName) => {
                 Welcome aboard, ${userName}! 🚀
               </h2>
               <p style="color: #a0a0b8; line-height: 1.7; margin: 0 0 25px; font-size: 15px;">
-                Welcome to CareerLens AI! We're excited to help you grow your career. Our AI-powered platform provides comprehensive tools to supercharge your career journey.
+                Welcome to CareerPulse AI! We're excited to help you grow your career. Our AI-powered platform provides comprehensive tools to supercharge your career journey.
               </p>
               
               <!-- Features -->
@@ -127,14 +127,14 @@ const sendWelcomeEmail = async (userEmail, userName) => {
             <!-- Footer -->
             <div style="text-align: center; padding: 25px 30px; background-color: #0f0f17; border-radius: 0 0 16px 16px; border: 1px solid rgba(255,255,255,0.06); border-top: none;">
               <p style="color: #5a5a7a; margin: 0; font-size: 12px;">
-                © 2026 CareerLens AI. Built with ❤️ for your career growth.
+                © 2026 CareerPulse AI. Built with ❤️ for your career growth.
               </p>
             </div>
           </div>
         </body>
         </html>
       `,
-      text: `Welcome to CareerLens AI, ${userName}!\n\nWe're excited to help you grow your career. Our AI-powered platform provides:\n\n• Resume Analysis - AI-powered resume parsing and insights\n• ATS Optimization - Beat applicant tracking systems\n• AI Mock Interviews - Practice with intelligent AI interviewer\n• Career Feedback - Personalized career roadmap\n\nGet started today!\n\n© 2026 CareerLens AI`,
+      text: `Welcome to CareerPulse AI, ${userName}!\n\nWe're excited to help you grow your career. Our AI-powered platform provides:\n\n• Resume Analysis - AI-powered resume parsing and insights\n• ATS Optimization - Beat applicant tracking systems\n• AI Mock Interviews - Practice with intelligent AI interviewer\n• Career Feedback - Personalized career roadmap\n\nGet started today!\n\n© 2026 CareerPulse AI`,
     };
 
     const info = await transport.sendMail(mailOptions);

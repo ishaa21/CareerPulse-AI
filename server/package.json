@@ -1,7 +1,7 @@
 {
-  "name": "careerlens-ai-server",
+  "name": "careerpulse-ai-server",
   "version": "1.0.0",
-  "description": "CareerLens AI - Backend API Server with MongoDB",
+  "description": "CareerPulse AI - Backend API Server with MongoDB",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",

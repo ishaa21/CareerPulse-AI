@@ -15,7 +15,7 @@ const apiRequest = async (endpoint, options = {}) => {
   };
 
   // Add auth token if available
-  const token = localStorage.getItem('careerlens_token');
+  const token = localStorage.getItem('careerpulse_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -44,8 +44,8 @@ export const loginUser = async (email, password) => {
   });
 
   if (data.data?.token) {
-    localStorage.setItem('careerlens_token', data.data.token);
-    localStorage.setItem('careerlens_user', JSON.stringify(data.data.user));
+    localStorage.setItem('careerpulse_token', data.data.token);
+    localStorage.setItem('careerpulse_user', JSON.stringify(data.data.user));
   }
 
   return data;
@@ -61,8 +61,8 @@ export const signupUser = async (name, email, password, confirmPassword) => {
   });
 
   if (data.data?.token) {
-    localStorage.setItem('careerlens_token', data.data.token);
-    localStorage.setItem('careerlens_user', JSON.stringify(data.data.user));
+    localStorage.setItem('careerpulse_token', data.data.token);
+    localStorage.setItem('careerpulse_user', JSON.stringify(data.data.user));
   }
 
   return data;
@@ -79,22 +79,22 @@ export const getCurrentUser = async () => {
  * Logout user
  */
 export const logoutUser = () => {
-  localStorage.removeItem('careerlens_token');
-  localStorage.removeItem('careerlens_user');
+  localStorage.removeItem('careerpulse_token');
+  localStorage.removeItem('careerpulse_user');
 };
 
 /**
  * Check if user is authenticated
  */
 export const isAuthenticated = () => {
-  return !!localStorage.getItem('careerlens_token');
+  return !!localStorage.getItem('careerpulse_token');
 };
 
 /**
  * Get stored user data
  */
 export const getStoredUser = () => {
-  const user = localStorage.getItem('careerlens_user');
+  const user = localStorage.getItem('careerpulse_user');
   return user ? JSON.parse(user) : null;
 };
 

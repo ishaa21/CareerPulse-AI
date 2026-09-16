@@ -7,12 +7,12 @@ const DashboardLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [theme, setTheme] = useState(() => localStorage.getItem('careerlens_theme') || 'dark');
+  const [theme, setTheme] = useState(() => localStorage.getItem('careerpulse_theme') || 'dark');
 
   useEffect(() => {
     const t = theme === 'light' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', t);
-    localStorage.setItem('careerlens_theme', t);
+    localStorage.setItem('careerpulse_theme', t);
   }, [theme]);
 
   const handleLogout = () => {
@@ -77,7 +77,7 @@ const DashboardLayout = () => {
         <div className="dashboard-navbar__left">
           <Link to="/" className="dashboard-navbar__logo">
             <span className="logo-icon">C</span>
-            <span className="text-gradient">CareerLens</span> AI
+            <span className="text-gradient">CareerPulse</span> AI
           </Link>
         </div>
         

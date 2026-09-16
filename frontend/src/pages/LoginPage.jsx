@@ -124,7 +124,7 @@ const LoginPage = () => {
         </form>
 
         <p className="auth-card__footer">
-          New to CareerLens AI?{' '}
+          New to CareerPulse AI?{' '}
           <Link to="/signup" className="auth-card__link">
             Create an account
           </Link>

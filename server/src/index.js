@@ -23,7 +23,7 @@ app.use('/api/auth', authRoutes);
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
-    message: 'CareerLens AI API is running',
+    message: 'CareerPulse AI API is running',
     timestamp: new Date().toISOString(),
   });
 });
@@ -50,7 +50,7 @@ const startServer = async () => {
   await connectDB();
 
   app.listen(PORT, () => {
-    console.log(`\n🚀 CareerLens AI Server running on http://localhost:${PORT}`);
+    console.log(`\n🚀 CareerPulse AI Server running on http://localhost:${PORT}`);
     console.log(`📡 API Health: http://localhost:${PORT}/api/health`);
     console.log(`🔐 Auth API: http://localhost:${PORT}/api/auth\n`);
   });
