@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"/>
   <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"/>
   <img src="https://img.shields.io/badge/LangGraph-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white" alt="LangGraph"/>
-  <img src="https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="HuggingFace"/>
+  <img src="https://img.shields.io/badge/Groq-F55036?style=for-the-badge&logo=groq&logoColor=white" alt="Groq"/>
 </p>
 
 ---
@@ -117,7 +117,7 @@ The system exposes a **RESTful API** via FastAPI (used by the bundled React app)
 │                                 └──────────────┘               │
 │                                                                 │
 ├─────────────────────────────────────────────────────────────────┤
-│          HuggingFace Inference API (LLM Backend)               │
+│              Groq API (Llama 3.3 70B Backend)                   │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -140,7 +140,7 @@ The system exposes a **RESTful API** via FastAPI (used by the bundled React app)
 | **FastAPI** | REST API framework with automatic OpenAPI docs |
 | **LangGraph** | Multi-agent graph orchestration with stateful execution |
 | **LangChain** | LLM integration and agent framework |
-| **HuggingFace Inference API** | LLM backend (OpenAI-compatible chat completions) |
+| **Groq API** | Ultra-fast LLM backend (OpenAI-compatible chat completions) |
 | **PyPDF2** | PDF text extraction |
 | **Pydantic** | Request/response data validation |
 | **Uvicorn** | ASGI server for FastAPI |
@@ -201,7 +201,7 @@ CareerPulse_AI/
 │   │   └── langgraph_flow.py     # LangGraph-based flow with StateGraph
 │   │
 │   ├── models/                   # LLM configuration
-│   │   └── llm.py                # HuggingFace API wrapper
+│   │   └── llm.py                # Groq API wrapper
 │   │
 │   └── temp/                     # Temporary uploaded resume storage
 │
@@ -225,7 +225,7 @@ CareerPulse_AI/
 ### Prerequisites
 
 - **Python 3.10+** installed on your system
-- **HuggingFace account** with an API token ([Get one here](https://huggingface.co/settings/tokens))
+- **Groq account** with an API key ([Get one free here](https://console.groq.com/keys))
 - **pip** package manager
 
 ### Installation
@@ -262,10 +262,12 @@ CareerPulse_AI/
 
 ### Environment Variables
 
-Create a `.env` file in the project root with your HuggingFace API token:
+Create a `.env` file in the project root (or `backend/`) with your Groq API key:
 
 ```env
-HUGGINGFACEHUB_API_TOKEN=hf_your_api_token_here
+GROQ_API_KEY=gsk_your_groq_api_key_here
+# Optional (defaults to llama-3.3-70b-versatile):
+GROQ_MODEL=llama-3.3-70b-versatile
 ```
 
 > ⚠️ **Important:** Never commit your API tokens to version control. Add `.env` to your `.gitignore` file.
@@ -680,16 +682,19 @@ python backend/graph/langgraph_flow.py resume.pdf
 
 ### LLM Model
 
-The default LLM model is configured in `backend/models/llm.py`:
+The default LLM model is configured in `backend/models/llm.py` (and can be overridden via `GROQ_MODEL` environment variable):
 
 ```python
-model = "openai/gpt-oss-120b"  # via HuggingFace router
+model = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
 ```
 
-To switch models, update the `model` variable. Supported models include any model available on the [HuggingFace Inference API](https://huggingface.co/models) with chat completion support.
+Supported Groq models include:
+- `llama-3.3-70b-versatile` (Recommended default: high accuracy and fast reasoning)
+- `llama-3.1-8b-instant` (Ultra-fast latency)
+- `mixtral-8x7b-32768` (High context)
 
 ---
 
 <p align="center">
-  Built with ❤️ using Python, FastAPI, LangGraph & HuggingFace 
+  Built with ❤️ using Python, FastAPI, LangGraph & Groq 
 </p>

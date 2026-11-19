@@ -10,7 +10,7 @@ from models.llm import generate_text
 def main():
     prompt = "Explain AI in simple words"
     try:
-        # Call the HuggingFace API using the logic defined in llm.py
+        # Call the Groq API using the logic defined in llm.py
         response_text = generate_text(prompt)
         # Print only the generated response
         print(response_text)
