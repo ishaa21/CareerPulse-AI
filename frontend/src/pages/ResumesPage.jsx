@@ -8,6 +8,7 @@ const ResumesPage = () => {
   const [uploading, setUploading] = useState(false);
   const [resumesList, setResumesList] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const loadResumes = async () => {
     try {
@@ -40,6 +41,7 @@ const ResumesPage = () => {
     if (!file) return;
 
     setUploading(true);
+    setErrorMessage(null);
     const storedUser = JSON.parse(localStorage.getItem('careerpulse_user') || '{}');
     const formData = new FormData();
     formData.append('file', file);
@@ -50,13 +52,20 @@ const ResumesPage = () => {
         method: 'POST',
         body: formData,
       });
-      await response.json();
-      // Reload the list — the new one will appear at top
-      loadResumes();
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.detail || data.message || `Upload failed (Status ${response.status})`);
+      }
+      // Reload the list - the new one will appear at top
+      await loadResumes();
     } catch (err) {
-      console.error(err);
+      console.error('Resume upload error:', err);
+      setErrorMessage(err.message || 'Failed to upload resume. Please check server logs.');
     } finally {
       setUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -109,6 +118,29 @@ const ResumesPage = () => {
           <span style={{ marginLeft: '8px' }}>{uploading ? 'Analyzing...' : 'Upload PDF'}</span>
         </button>
       </div>
+
+      {errorMessage && (
+        <div className="alert alert-error animate-fade-in" style={{
+          background: 'rgba(239, 68, 68, 0.12)',
+          border: '1px solid rgba(239, 68, 68, 0.35)',
+          borderRadius: '10px',
+          padding: '12px 18px',
+          color: '#fca5a5',
+          marginBottom: '1.5rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <span style={{ fontSize: '0.95rem' }}>⚠️ <strong>Upload error:</strong> {errorMessage}</span>
+          <button 
+            type="button" 
+            onClick={() => setErrorMessage(null)} 
+            style={{ background: 'transparent', border: 'none', color: '#fca5a5', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}
+          >
+            &times;
+          </button>
+        </div>
+      )}
 
       <div className="resumes-list">
         {resumesList.length === 0 && (

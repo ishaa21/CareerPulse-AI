@@ -541,6 +541,7 @@ async def upload_resume(file: UploadFile = File(...), user_id: str = Form("demo_
     try:
         resume_result = analyze_resume(str(file_path))
     except Exception as e:
+        logger.error(f"[{session_id}] Resume analysis error: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Resume analysis failed: {e}")
 
     # Run ATS Optimizer
@@ -548,6 +549,7 @@ async def upload_resume(file: UploadFile = File(...), user_id: str = Form("demo_
     try:
         ats_result = ats_agent(resume_result)
     except Exception as e:
+        logger.error(f"[{session_id}] ATS optimization error: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"ATS optimization failed: {e}")
 
     # Create session
