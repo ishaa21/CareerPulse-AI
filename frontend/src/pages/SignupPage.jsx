@@ -76,7 +76,7 @@ const SignupPage = () => {
         <div className="auth-card__header">
           <Link to="/" className="auth-card__logo">
             <span>🔍</span>
-            Career<span className="text-gradient">Lens</span> AI
+            Career<span className="text-gradient">Pulse</span> AI
           </Link>
           <h1 className="auth-card__title">Create Your Account</h1>
           <p className="auth-card__subtitle">
